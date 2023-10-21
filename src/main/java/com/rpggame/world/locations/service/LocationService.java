@@ -3,7 +3,7 @@ package com.rpggame.world.locations.service;
 import java.util.List;
 import java.util.Map;
 
-import com.rpggame.world.locations.dto.BuildingDTO;
+import com.rpggame.world.locations.dto.LocationBuildingDTO;
 import com.rpggame.world.locations.dto.CityLocationDTO;
 import com.rpggame.world.locations.dto.LocationFullDTO;
 import com.rpggame.world.locations.model.Location;
@@ -16,7 +16,7 @@ public class LocationService {
     @Autowired
     private LocationRepository locationRepository;
 
-    public void createNewCity(Map<CityLocationDTO, List<BuildingDTO>> cityBuildings) {
+    public void createNewCity(Map<CityLocationDTO, List<LocationBuildingDTO>> cityBuildings) {
         cityBuildings.forEach(
             (locationData, buildingData) -> {
                 Location cityLocation;
@@ -31,7 +31,7 @@ public class LocationService {
                     throw new IllegalArgumentException("Wrong region name");
                 }
 
-                locationRepository.insertLocation(cityLocation);
+                locationRepository.insert(cityLocation);
             }
         );
     }
@@ -49,7 +49,7 @@ public class LocationService {
                 y,
                 level
             );
-            locationRepository.insertLocation(location);
+            locationRepository.insert(location);
         } else {
             throw new IllegalArgumentException("Wrong region name");
         }

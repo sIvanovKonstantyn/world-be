@@ -4,10 +4,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import com.rpggame.world.locations.dto.BuildingDTO;
+import com.rpggame.world.locations.dto.LocationBuildingDTO;
 import com.rpggame.world.locations.dto.LocationFullDTO;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Embedded;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 
 /*
@@ -28,13 +27,13 @@ public class Location {
     private int y;
 
     @MappedCollection(idColumn = "LOCATION_ID")
-    private List<Building> buildings;
+    private List<LocationBuilding> buildings;
 
     @MappedCollection(idColumn = "LOCATION_ID")
     private MonsterGroup monsterGroup;
 
     private Location(String id, String locationName, int level, Region region, int x, int y,
-                     List<Building> buildings, MonsterGroup monsterGroup) {
+                     List<LocationBuilding> buildings, MonsterGroup monsterGroup) {
         this.id = id;
         this.locationName = locationName;
         this.level = level;
@@ -48,10 +47,10 @@ public class Location {
     public static Location createNewDiggersCityLocation(String name,
                                                         int x,
                                                         int y,
-                                                        List<BuildingDTO> buildingsDto) {
+                                                        List<LocationBuildingDTO> buildingsDto) {
         var id = UUID.randomUUID().toString();
         var buildings = buildingsDto.stream()
-            .map((BuildingDTO dto) -> Building.fromDto(dto, id))
+            .map((LocationBuildingDTO dto) -> LocationBuilding.fromDto(dto, id))
             .collect(Collectors.toList());
 
         return new Location(id, name, 0, Region.DIGGERS, x, y, buildings,
@@ -63,13 +62,13 @@ public class Location {
         var name = String.format("location (%s/%s) - $%s region", x, y, Region.DIGGERS);
         var monstersGroup = MonsterGroup.createForLevel(level, Region.DIGGERS);
 
-        return new Location(id, name, level, Region.DIGGERS, x, y, Building.emptyList(),
+        return new Location(id, name, level, Region.DIGGERS, x, y, LocationBuilding.emptyList(),
             monstersGroup);
     }
 
     public LocationFullDTO toDto() {
         var buildingsDto = buildings.stream()
-            .map(Building::toDto)
+            .map(LocationBuilding::toDto)
             .collect(Collectors.toList());
 
         return new LocationFullDTO(locationName, x, y, buildingsDto);

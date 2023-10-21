@@ -5,9 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
-import com.rpggame.world.locations.dto.BuildingDTO;
+import com.rpggame.world.locations.dto.LocationBuildingDTO;
 import com.rpggame.world.locations.dto.CityLocationDTO;
-import com.rpggame.world.locations.dto.LocationFullDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -76,13 +75,13 @@ class LocationServiceITest {
     }
 
     private void createCity(int x, int y) {
-        Map<CityLocationDTO, List<BuildingDTO>> cityBuildings = new HashMap<>();
+        Map<CityLocationDTO, List<LocationBuildingDTO>> cityBuildings = new HashMap<>();
         cityBuildings.put(
             new CityLocationDTO("Test city", 0, "DIGGERS", x, y),
             List.of(
-                new BuildingDTO("Shop", 10, 10, null),
-                new BuildingDTO("Hospital", 20, 10, null),
-                new BuildingDTO("House #1", 30, 10, null)
+                new LocationBuildingDTO("Shop", 10, 10, null),
+                new LocationBuildingDTO("Hospital", 20, 10, null),
+                new LocationBuildingDTO("House #1", 30, 10, null)
             )
         );
 
